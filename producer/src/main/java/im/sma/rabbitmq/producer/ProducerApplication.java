@@ -1,5 +1,6 @@
 package im.sma.rabbitmq.producer;
 
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.core.MessageProperties;
@@ -16,18 +17,14 @@ public class ProducerApplication implements CommandLineRunner {
 	private RabbitTemplate rabbitTemplate;
 
 	@Autowired
-	private Queue queue;
+	private FanoutExchange fanoutExchange;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProducerApplication.class, args);
 	}
 
 	public void run(String... args) throws Exception {
-		// MessageProperties messageProperties = new MessageProperties();
-		// messageProperties.setDeliveryMode(MessageDeliveryMode.NON_PERSISTENT);
-		// Message message = new Message("Hello bySMA!".getBytes(), messageProperties);
-		// rabbitTemplate.convertAndSend(queue.getName(), message);
-		rabbitTemplate.convertAndSend(queue.getName(), "Hello bySMA!");
+		rabbitTemplate.convertAndSend(fanoutExchange.getName(), "", "Hello bySMA!");
 	}
 
 }
