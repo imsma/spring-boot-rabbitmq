@@ -7,12 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitMQListener {
 
-    @RabbitListener(queues = "hello")
+    @RabbitListener(queues = "#{annQueue.name}")
     public void listen(String message) throws InterruptedException {
         System.out.println("Processing...");
-        // Thread.sleep(5000);
-        // throw new RuntimeException("Error occurred");
-        // throw new AmqpRejectAndDontRequeueException("");
         System.out.println("Received message: " + message);
     }
 }
