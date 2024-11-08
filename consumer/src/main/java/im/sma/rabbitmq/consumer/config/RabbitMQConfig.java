@@ -9,7 +9,7 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue createQueue() {
-        return new Queue("hello");
+        return new Queue("hello", true);
     }
 
 }
