@@ -7,20 +7,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import im.sma.rabbitmq.producer.config.RabbitMQConfig;
+
 @SpringBootApplication
 public class ProducerApplication implements CommandLineRunner {
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
-
-	@Autowired
-	private TopicExchange topicExchange;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProducerApplication.class, args);
 	}
 
 	public void run(String... args) throws Exception {
-		rabbitTemplate.convertAndSend(topicExchange.getName(), "topicRouting", "Hello bySMA!");
+		String response = (String) rabbitTemplate.convertSendAndReceive(RabbitMQConfig.REQUEST_QUEU, "Hello, bySMA!");
+		System.out.println("Response: " + response);
 	}
 
 }
