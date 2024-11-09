@@ -3,6 +3,7 @@ package im.sma.rabbitmq.consumer.config;
 import org.springframework.amqp.core.AnonymousQueue;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
@@ -10,25 +11,19 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
-
-    // @Bean
-    // public Queue createQueue() {
-    // return new Queue("hello", true);
-    // }
-
     @Bean
-    public FanoutExchange createFanoutExchange() {
-        return new FanoutExchange("fanoutExchange");
+    public DirectExchange directExchange() {
+        return new DirectExchange("directExchange");
     }
 
     @Bean
-    Queue annQueue() {
+    public Queue annQueue() {
         return new AnonymousQueue();
     }
 
     @Bean
-    public Binding binding(FanoutExchange fanout, Queue annQueue) {
-        return BindingBuilder.bind(annQueue).to(fanout);
+    public Binding binding(Queue annQueue, DirectExchange directExchange) {
+        return BindingBuilder.bind(annQueue).to(directExchange).with("directRouting");
     }
 
 }
