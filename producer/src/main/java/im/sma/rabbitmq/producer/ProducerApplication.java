@@ -1,5 +1,6 @@
 package im.sma.rabbitmq.producer;
 
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageDeliveryMode;
@@ -17,14 +18,14 @@ public class ProducerApplication implements CommandLineRunner {
 	private RabbitTemplate rabbitTemplate;
 
 	@Autowired
-	private FanoutExchange fanoutExchange;
+	private DirectExchange directExchange;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProducerApplication.class, args);
 	}
 
 	public void run(String... args) throws Exception {
-		rabbitTemplate.convertAndSend(fanoutExchange.getName(), "", "Hello bySMA!");
+		rabbitTemplate.convertAndSend(directExchange.getName(), "directRouting", "Hello bySMA!");
 	}
 
 }
