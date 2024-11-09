@@ -6,14 +6,15 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
     @Bean
-    public DirectExchange directExchange() {
-        return new DirectExchange("directExchange");
+    public TopicExchange topicExchange() {
+        return new TopicExchange("topicExchange");
     }
 
     @Bean
@@ -22,8 +23,8 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding binding(Queue annQueue, DirectExchange directExchange) {
-        return BindingBuilder.bind(annQueue).to(directExchange).with("directRouting");
+    public Binding binding(Queue annQueue, TopicExchange topicExchange) {
+        return BindingBuilder.bind(annQueue).to(topicExchange).with("topicRouting");
     }
 
 }
